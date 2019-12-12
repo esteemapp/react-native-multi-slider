@@ -66,7 +66,7 @@ export default class MultiSlider extends React.Component {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     var customPanResponder = (start, move, end) => {
       return PanResponder.create({
         onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -94,7 +94,7 @@ export default class MultiSlider extends React.Component {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.onePressed || this.state.twoPressed) {
       return;
     }
@@ -433,44 +433,43 @@ export default class MultiSlider extends React.Component {
               )}
             </View>
           </View>
-          {twoMarkers &&
-            positionOne !== this.props.sliderLength && (
+          {twoMarkers && positionOne !== this.props.sliderLength && (
+            <View
+              style={[
+                styles.markerContainer,
+                markerContainerTwo,
+                this.props.markerContainerStyle,
+              ]}
+            >
               <View
-                style={[
-                  styles.markerContainer,
-                  markerContainerTwo,
-                  this.props.markerContainerStyle,
-                ]}
+                style={[styles.touch, touchStyle]}
+                ref={component => (this._markerTwo = component)}
+                {...this._panResponderTwo.panHandlers}
               >
-                <View
-                  style={[styles.touch, touchStyle]}
-                  ref={component => (this._markerTwo = component)}
-                  {...this._panResponderTwo.panHandlers}
-                >
-                  {isMarkersSeparated === false ? (
-                    <Marker
-                      pressed={this.state.twoPressed}
-                      markerStyle={this.props.markerStyle}
-                      pressedMarkerStyle={this.props.pressedMarkerStyle}
-                      currentValue={this.state.valueTwo}
-                      enabled={this.props.enabledTwo}
-                      valuePrefix={this.props.valuePrefix}
-                      valueSuffix={this.props.valueSuffix}
-                    />
-                  ) : (
-                    <MarkerRight
-                      pressed={this.state.twoPressed}
-                      markerStyle={this.props.markerStyle}
-                      pressedMarkerStyle={this.props.pressedMarkerStyle}
-                      currentValue={this.state.valueTwo}
-                      enabled={this.props.enabledTwo}
-                      valuePrefix={this.props.valuePrefix}
-                      valueSuffix={this.props.valueSuffix}
-                    />
-                  )}
-                </View>
+                {isMarkersSeparated === false ? (
+                  <Marker
+                    pressed={this.state.twoPressed}
+                    markerStyle={this.props.markerStyle}
+                    pressedMarkerStyle={this.props.pressedMarkerStyle}
+                    currentValue={this.state.valueTwo}
+                    enabled={this.props.enabledTwo}
+                    valuePrefix={this.props.valuePrefix}
+                    valueSuffix={this.props.valueSuffix}
+                  />
+                ) : (
+                  <MarkerRight
+                    pressed={this.state.twoPressed}
+                    markerStyle={this.props.markerStyle}
+                    pressedMarkerStyle={this.props.pressedMarkerStyle}
+                    currentValue={this.state.valueTwo}
+                    enabled={this.props.enabledTwo}
+                    valuePrefix={this.props.valuePrefix}
+                    valueSuffix={this.props.valueSuffix}
+                  />
+                )}
               </View>
-            )}
+            </View>
+          )}
         </View>
       </View>
     );
